@@ -1,5 +1,5 @@
 {
-  "name": "grunt-jscs",
+  "name": "grunt-jscs-jsx",
   "description": "Grunt task for checking JavaScript Code Style with jscs.",
   "version": "0.7.1",
   "author": "Gustavo Henke <gustavo@injoin.com.br>",
