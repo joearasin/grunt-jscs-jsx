@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
             },
             all: [ "Gruntfile.js", "tasks/**/*.js", "test/*.js", "test/enmasse/Gruntfile.js" ]
         },
-        jscs: {
+        "jscs-jsx": {
             src: "<%= jshint.all %>"
         },
         nodeunit: {

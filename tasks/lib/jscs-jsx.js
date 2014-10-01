@@ -64,10 +64,15 @@ exports.init = function( grunt ) {
                 filename = filename.replace(/\.jsx$/, ".js");
             }
 
-            var parseError;
-            var errors;
-            var transformedStrLines;
-            var strLines = str.split(/\r\n|\r|\n/);
+            var parseError,
+                errors,
+                file,
+                transformedStrLines,
+                transformedStr,
+                numLines,
+                disabled,
+                i,
+                strLines = str.split(/\r\n|\r|\n/);
 
             try {
               transformedStrLines = react.transform(str).split(/\r\n|\r|\n/);
@@ -77,7 +82,7 @@ exports.init = function( grunt ) {
             }
 
             if (parseError) {
-              var file = new JsFile(filename, str);
+              file = new JsFile(filename, str);
               errors = new Errors(file, this._verbose);
               errors.setCurrentRule("parseError");
               errors.add(parseError.description, parseError.lineNumber, parseError.column);
@@ -86,9 +91,10 @@ exports.init = function( grunt ) {
             }
 
             if (strLines.length === transformedStrLines.length) {
-                var numLines = transformedStrLines.length;
-                var disabled = false;
-                for (var i = 0; i < numLines; i++) {
+                numLines = transformedStrLines.length;
+                disabled = false;
+                i;
+                for (i = 0; i < numLines; i++) {
                     if (transformedStrLines[i] !== strLines[i]) {
                         if (!disabled) {
                             transformedStrLines[i] = transformedStrLines[i] + " // jscs:disable";
@@ -101,7 +107,7 @@ exports.init = function( grunt ) {
                 }
             }
 
-            var transformedStr = transformedStrLines.join("\n");
+            transformedStr = transformedStrLines.join("\n");
 
             errors = Checker.prototype.checkString.call(
                 this, transformedStr, filename);
