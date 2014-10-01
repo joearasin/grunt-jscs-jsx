@@ -2,7 +2,7 @@
 
 module.exports = function( grunt ) {
     grunt.initConfig({
-        jscs: {
+        "jscs-jsx": {
             fail: {
                 files: {
                     src: "../fixtures/fixture.js"
@@ -66,7 +66,7 @@ module.exports = function( grunt ) {
     });
 
     grunt.loadTasks( "../../tasks" );
-    grunt.registerTask( "default", "jscs" );
+    grunt.registerTask( "default", "jscs-jsx" );
     grunt.registerTask( "fatal", function() {
         grunt.fatal("test");
     });

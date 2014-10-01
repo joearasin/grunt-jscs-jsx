@@ -4,7 +4,10 @@ var path = require( "path" ),
 
     Checker = require( "jscs/lib/checker" ),
     jscsConfig = require( "jscs/lib/cli-config" ),
-
+    Errors = require("jscs/lib/errors"),
+    JsFile = require("jscs/lib/js-file"),
+    react = require("react-tools"),
+    reactDomPragma = require("react-dom-pragma"),
     assign = require( "lodash" ).assign,
     hooker = require( "hooker" );
 
@@ -54,6 +57,57 @@ exports.init = function( grunt ) {
 
         this.checker.registerDefaultRules();
         this.checker.configure( this.getConfig() );
+
+        this.checker.checkString = function(str, filename) {
+            if ((filename || "").match(/\.jsx$/)) {
+                str = reactDomPragma(str);
+                filename = filename.replace(/\.jsx$/, ".js");
+            }
+
+            var parseError;
+            var errors;
+            var transformedStrLines;
+            var strLines = str.split(/\r\n|\r|\n/);
+
+            try {
+              transformedStrLines = react.transform(str).split(/\r\n|\r|\n/);
+
+            } catch (e) {
+              parseError = e;
+            }
+
+            if (parseError) {
+              var file = new JsFile(filename, str);
+              errors = new Errors(file, this._verbose);
+              errors.setCurrentRule("parseError");
+              errors.add(parseError.description, parseError.lineNumber, parseError.column);
+
+              return errors;
+            }
+
+            if (strLines.length === transformedStrLines.length) {
+                var numLines = transformedStrLines.length;
+                var disabled = false;
+                for (var i = 0; i < numLines; i++) {
+                    if (transformedStrLines[i] !== strLines[i]) {
+                        if (!disabled) {
+                            transformedStrLines[i] = transformedStrLines[i] + " // jscs:disable";
+                            disabled = true;
+                        }
+                    } else if (disabled) {
+                        transformedStrLines[i] = transformedStrLines[i] + " // jscs:enable";
+                        disabled = false;
+                    }
+                }
+            }
+
+            var transformedStr = transformedStrLines.join("\n");
+
+            errors = Checker.prototype.checkString.call(
+                this, transformedStr, filename);
+
+            return errors;
+        };
 
         this._reporter = this.registerReporter( options.reporter );
     }

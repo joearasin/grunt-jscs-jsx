@@ -2,7 +2,7 @@
 
 var fixture, errors,
     grunt = require( "grunt" ),
-    JSCS = require( "../tasks/lib/jscs" ).init( grunt ),
+    JSCS = require( "../tasks/lib/jscs-jsx" ).init( grunt ),
 
     path = require( "path" ),
 

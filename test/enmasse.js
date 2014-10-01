@@ -7,7 +7,7 @@ grunt.file.setBase( "test/enmasse" );
 exports.fail = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:fail" ]
+        args: [ "jscs-jsx:fail" ]
     }, function( error, result ) {
         test.equal( result.code, 3 );
 
@@ -18,7 +18,7 @@ exports.fail = function( test ) {
 exports.broken = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:broken" ]
+        args: [ "jscs-jsx:broken" ]
     }, function( error, result ) {
         test.equal( result.code, 3 );
 
@@ -29,7 +29,7 @@ exports.broken = function( test ) {
 exports.force = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:force" ]
+        args: [ "jscs-jsx:force" ]
     }, function( error, result ) {
         test.equal( result.code, 0 );
 
@@ -40,7 +40,7 @@ exports.force = function( test ) {
 exports.forceAndFatal = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:force", "fatal" ]
+        args: [ "jscs-jsx:force", "fatal" ]
     }, function( error, result ) {
         test.equal( result.code, 1 );
 
@@ -51,7 +51,7 @@ exports.forceAndFatal = function( test ) {
 exports.success = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:success" ]
+        args: [ "jscs-jsx:success" ]
     }, function( error, result ) {
         test.equal( result.code, 0 );
 
@@ -62,7 +62,7 @@ exports.success = function( test ) {
 exports.onlyInline = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:only-inline" ]
+        args: [ "jscs-jsx:only-inline" ]
     }, function( error, result ) {
         test.equal( result.code, 0 );
 
@@ -73,7 +73,7 @@ exports.onlyInline = function( test ) {
 exports.merge = function( test ) {
     grunt.util.spawn({
         cmd: "grunt",
-        args: [ "jscs:merge" ]
+        args: [ "jscs-jsx:merge" ]
     }, function( error, result ) {
         test.ok( result.stdout.indexOf( "curly" ) > 0 );
         test.ok( result.stdout.indexOf( "Illegal keyword:" ) > 0 );

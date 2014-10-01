@@ -5,9 +5,9 @@ var Vow = require( "vow" );
 module.exports = function( grunt ) {
 
     var filter = Array.prototype.filter,
-        JSCS = require( "./lib/jscs" ).init( grunt );
+        JSCS = require( "./lib/jscs-jsx" ).init( grunt );
 
-    grunt.registerMultiTask( "jscs", "JavaScript Code Style checker", function() {
+    grunt.registerMultiTask( "jscs-jsx", "JavaScript Code Style checker", function() {
         var done = this.async(),
             options = this.options({
 
